@@ -19,5 +19,17 @@
 			<a href="https://www.interbrand.com/best-brands/">Interband</a></footer
 		>
 		<script src="main.js"></script>
+		<script>
+		const replay = d3
+			.select("main")
+			.append("button")
+			.attr("id", "btn")
+			.text("Replay")
+			.on("click", function() {
+				startRace();
+				d3.event.stopPropagation();
+			});
+			
+			startRace();</script>
 	</body>
 </html>

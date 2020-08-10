@@ -1,4 +1,4 @@
-(function() {
+function startRace() {
 	// https://observablehq.com/@d3/bar-chart-race-explained
 	////////////////////////////////////////////////////////////
 	//// Setup /////////////////////////////////////////////////
@@ -9,6 +9,10 @@
 	const width = svgWidth - margin.left - margin.right;
 	const height = svgHeight - margin.top - margin.bottom;
 	const barPadding = 0.1;
+
+	// Remove the bar race chart if it exists
+	if (d3.select("#bar-chart-race"))
+		d3.select("svg").remove();
 
 	// Top N
 	const n = 10;
@@ -23,6 +27,7 @@
 	const svg = d3
 		.select("main")
 		.append("svg")
+		.attr("id", "bar-race-chart")
 		.attr("viewBox", [0, 0, svgWidth, svgHeight]);
 
 	const g = svg
@@ -37,11 +42,12 @@
 		.range([0, (height / n) * (n + 1 + barPadding)])
 		.padding(barPadding);
 
-	g.append("text")
-		.attr("class", "title")
-		.attr("y", -margin.top)
-		.attr("dy", "1.2em")
-		.text("Best Global Brands");
+	const headTitle = g.append("text")
+					.attr("class", "title")
+					.attr("id", "head-title")
+					.attr("y", -margin.top)
+					.attr("dy", "1.2em")
+					.text("Best Global Brands");
 
 	const subtitle = g
 		.append("text")
@@ -56,7 +62,10 @@
 		console.log({ data });
 
 		const names = new Set(data.map(d => d.name));
+		const categoryByName = new Map(data.map(d => [d.name, d.category]));
+
 		console.log({ names });
+		console.log({ categoryByName });
 
 		const datevalues = Array.from(
 			d3.rollup(
@@ -139,6 +148,15 @@
 
 		init();
 
+		function color(d) {
+			const scale = d3.scaleOrdinal(d3.schemeTableau10);
+			if (data.some(d => d.category !== undefined)) {
+			  scale.domain(Array.from(categoryByName.values()));
+			  return scale(categoryByName.get(d.name));
+			}
+			return scale(d.name);
+		  }
+
 		////////////////////////////////////////////////////////////
 		//// Bars //////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////
@@ -155,7 +173,8 @@
 						enter =>
 							enter
 								.append("rect")
-								.attr("class", "bar")
+								//.attr("class", "bar")
+								.attr("fill", color)
 								.attr("x", x(0))
 								.attr("y", d => y((prev.get(d) || d).rank))
 								.attr("height", y.bandwidth())
@@ -289,4 +308,4 @@
 			};
 		}
 	});
-})();
+}

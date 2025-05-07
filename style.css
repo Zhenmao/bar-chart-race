@@ -1,41 +1,112 @@
+:root {
+  --font-size-xs: 0.64rem;
+  --font-size-sm: 0.8rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.56rem;
+  --font-size-2xl: 1.95rem;
+  --font-size-3xl: 2.44rem;
+  --font-size-4xl: 3.05rem;
+  --font-size-5xl: 3.81rem;
+
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+
+  --color-background: #444444;
+  --color-accent: #e75d4e;
+  --color-text: #cccccc;
+
+  --color-title: var(--color-accent);
+  --color-subtitle: var(--color-text);
+  --color-bar-fill: var(--color-background);
+  --color-bar-stroke: var(--color-text);
+  --color-bar-label: var(--color-accent);
+  --color-bar-value: var(--color-text);
+  --color-tick-label-fill: var(--color-text);
+  --color-now: var(--color-text);
+}
+
 html {
-	font-size: 12px;
-	font-family: Arial, Helvetica, sans-serif;
+  font-family: "Oswald", sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
 }
 
 body {
-	padding: 0;
-	margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-background);
 }
 
 svg {
-	display: block;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}
+
+a {
+  color: currentColor;
 }
 
 footer {
-	margin: 16px;
+  font-size: var(--font-size-sm);
+  margin: 1rem auto;
+  text-align: center;
+  color: var(--color-text);
 }
 
 .title {
-	font-size: bold;
-	font-size: 3rem;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  fill: var(--color-title);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-size: var(--font-size-md);
+  fill: var(--color-subtitle);
 }
 
 .bar {
-	fill: #da4f81;
+  fill: var(--color-bar-fill);
+  stroke: var(--color-bar-stroke);
+  stroke-width: 1.5px;
+}
+
+.axis {
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-sm);
 }
 
 .axis .tick line {
-	stroke: #fff;
+  stroke: transparent;
+}
+
+.axis text {
+  fill: var(--color-tick-label-fill);
 }
 
 .labels {
-	font-weight: bold;
-	font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-bar-label);
+}
+
+.labels tspan {
+  font-size: var(--font-size-md);
+  fill: var(--color-bar-value);
 }
 
 .now {
-	font-size: 5rem;
-	font-weight: bold;
-	font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-now);
 }

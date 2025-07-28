@@ -114,29 +114,37 @@
     ////////////////////////////////////////////////////////////
     //// Initialization ////////////////////////////////////////
     ////////////////////////////////////////////////////////////
-
-    async function init() {
+    function init() {
       const updateBars = bars();
       const updateAxis = axis();
       const updateLabels = labels();
       const updateTicker = ticker();
 
-      for (const keyframe of keyframes) {
-        const transition = svg
-          .transition()
-          .duration(duration)
-          .ease(d3.easeLinear);
+      async function replay() {
+        for (const keyframe of keyframes) {
+          const transition = svg
+            .transition()
+            .duration(duration)
+            .ease(d3.easeLinear);
 
-        // Extract the top bar’s value.
-        x.domain([0, keyframe[1][0].value]);
+          // Extract the top bar’s value.
+          x.domain([0, keyframe[1][0].value]);
 
-        updateBars(keyframe, transition);
-        updateAxis(keyframe, transition);
-        updateLabels(keyframe, transition);
-        updateTicker(keyframe, transition);
+          updateBars(keyframe, transition);
+          updateAxis(keyframe, transition);
+          updateLabels(keyframe, transition);
+          updateTicker(keyframe, transition);
 
-        await transition.end();
+          await transition.end();
+        }
       }
+
+      replay();
+
+      d3.select("#replay").on("click", () => {
+        svg.selectAll("*").interrupt();
+        replay();
+      });
     }
 
     init();

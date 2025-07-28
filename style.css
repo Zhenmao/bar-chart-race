@@ -52,6 +52,10 @@ a {
   color: currentColor;
 }
 
+main {
+  padding: 1rem;
+}
+
 footer {
   font-size: var(--font-size-sm);
   margin: 1rem auto;
